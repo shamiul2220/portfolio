@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="dark"> <!-- Defaulted to dark for the cool glowing effect -->
+<html lang="en" data-theme="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Samuel Islam Siam - Materials Engineer</title>
+    <title>MD Shamiul Islam - Materials Engineer</title>
     <style>
         /* CSS Variables */
         :root {
@@ -15,7 +15,7 @@
             --glass-bg: rgba(30, 41, 59, 0.6);
             --glass-border: rgba(255, 255, 255, 0.1);
             --atom-glow: rgba(56, 189, 248, 0.5);
-            --particle-color: 56, 189, 248; /* RGB for canvas */
+            --particle-color: 56, 189, 248; 
         }
 
         [data-theme="light"] {
@@ -189,7 +189,7 @@
             transform-style: preserve-3d;
         }
 
-        .orbit::before { /* The electron */
+        .orbit::before {
             content: '';
             position: absolute;
             top: -5px;
@@ -201,13 +201,12 @@
             box-shadow: 0 0 15px white;
         }
 
-        /* Orienting the orbits in 3D space */
         .orbit-1 { transform: rotateY(60deg) rotateX(45deg); animation: spin-orbit 4s linear infinite; }
         .orbit-2 { transform: rotateY(-60deg) rotateX(45deg); animation: spin-orbit 5s linear infinite reverse; }
         .orbit-3 { transform: rotateY(0deg) rotateX(75deg); animation: spin-orbit 6s linear infinite; }
 
         @keyframes spin-orbit {
-            100% { transform: rotateZ(360deg); } /* Keep orientation, just spin the electron */
+            100% { transform: rotateZ(360deg); }
         }
         @keyframes rotate-atom {
             0% { transform: rotateX(0) rotateY(0); }
@@ -263,9 +262,35 @@
             border: 1px solid var(--glass-border);
         }
 
+        /* Links Grid for Contact Section */
+        .links-grid {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .link-btn {
+            padding: 10px 25px;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            color: var(--text-main);
+            text-decoration: none;
+            border-radius: 20px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .link-btn:hover {
+            background: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
+
         /* 3D Tilt Logic */
         .tilt-element { transition: transform 0.1s ease; will-change: transform; }
-        .card-content { transform: translateZ(40px); } /* Pushes text off the card in 3D */
+        .card-content { transform: translateZ(40px); }
 
         .hidden {
             opacity: 0;
@@ -284,28 +309,27 @@
 </head>
 <body>
 
-    <!-- Dynamic Material Network Background -->
     <canvas id="lattice-canvas"></canvas>
 
     <nav>
-        <div style="font-weight: 800; font-size: 1.4rem; color: var(--primary-color); letter-spacing: 2px;">SIS.</div>
+        <div style="font-weight: 800; font-size: 1.4rem; color: var(--primary-color); letter-spacing: 2px;">MSI.</div>
         <div class="nav-links">
             <a href="#about">Properties</a>
             <a href="#skills">Tooling</a>
+            <a href="#contact">Contact</a>
             <button id="theme-toggle">☀️ Light Mode</button>
         </div>
     </nav>
 
     <header>
         <div class="hero-text">
-            <h1 class="hidden">Samuel Islam Siam</h1>
-            <p class="subtitle hidden" style="transition-delay: 150ms;">2nd Semester Materials Science Engineering Student investigating structural design and material properties in Ustia.</p>
+            <h1 class="hidden">MD Shamiul Islam</h1>
+            <p class="subtitle hidden" style="transition-delay: 150ms;">3rd Semester Materials Science and Engineering (MSE) Student at RUET bridging theoretical physics and macro-structural design.</p>
             <div class="hidden" style="transition-delay: 300ms;">
                 <a href="#about" class="cta-btn">Analyze Profile</a>
             </div>
         </div>
         <div class="hero-visual hidden" style="transition-delay: 450ms;">
-            <!-- CSS 3D Atom -->
             <div class="atom">
                 <div class="nucleus"></div>
                 <div class="orbit orbit-1"></div>
@@ -322,11 +346,7 @@
                 <div class="card-content">
                     <div class="info-block">
                         <h3>About Me</h3>
-                        <p>I am an engineering student focused on the microstructures of matter and macro-structural design. I love bridging the gap between theoretical chemistry, physics, and practical application.</p>
-                    </div>
-                    <div class="info-block">
-                        <h3>Location Base</h3>
-                        <p>Ustia</p>
+                        <p>I am an engineering student at RUET focused on the microstructures of matter and macro-structural design. Having completed 10 theory and sessional courses spanning Maths, Humanities, Physics, and CSE fundamentals, I enjoy bridging the gap between theoretical mechanics—like kinematics and free-body analysis—and practical application. Alongside my studies, I actively tutor students from class 7 to 12, sharing my passion for science and foundational engineering.</p>
                     </div>
                 </div>
             </div>
@@ -335,12 +355,12 @@
                 <div class="card-content">
                     <div class="info-block">
                         <h3>Educational Lattice</h3>
-                        <p><strong>College Phase:</strong> Ustia Govt College Ustia</p>
-                        <p style="margin-top: 10px;"><strong>School Phase:</strong> Ustia Zilla School Ustia</p>
+                        <p><strong>University:</strong> Rajshahi University of Engineering & Technology (RUET)</p>
+                        <p style="margin-top: 10px;"><strong>Current Status:</strong> 3rd Semester Materials Science & Engineering (MSE)</p>
                     </div>
                     <div class="info-block">
-                        <h3>Current Status</h3>
-                        <p>2nd Semester Materials Science Engineering Student</p>
+                        <h3>Location Base</h3>
+                        <p>Kushtia, Bangladesh</p>
                     </div>
                 </div>
             </div>
@@ -354,44 +374,55 @@
             <div class="glass-card tilt-element hidden">
                 <div class="card-content">
                     <h3>Engineering & Design</h3>
-                    <p style="color: var(--text-light);">Creating precise 2D/3D models and structural plans for mechanical analysis.</p>
+                    <p style="color: var(--text-light);">Creating precise 2D/3D models, structural plans, and applying machinery-level competencies.</p>
                     <div class="skill-tags">
                         <span class="tag">AutoCAD</span>
                         <span class="tag">SolidWorks</span>
+                        <span class="tag">Machinery Tools</span>
+                        <span class="tag">Mechanics & FBDs</span>
                     </div>
                 </div>
             </div>
             
             <div class="glass-card tilt-element hidden" style="transition-delay: 150ms;">
                 <div class="card-content">
-                    <h3>Data & Analytics</h3>
-                    <p style="color: var(--text-light);">Organizing testing data, formatting technical documents, and presentations.</p>
+                    <h3>Data, Software & Logic</h3>
+                    <p style="color: var(--text-light);">Organizing testing data, formatting technical documentation, and writing foundational logic.</p>
                     <div class="skill-tags">
                         <span class="tag">Microsoft Excel</span>
                         <span class="tag">Microsoft Word</span>
                         <span class="tag">PowerPoint</span>
+                        <span class="tag">C Programming</span>
                     </div>
                 </div>
             </div>
 
             <div class="glass-card tilt-element hidden" style="transition-delay: 300ms;">
                 <div class="card-content">
-                    <h3>Digital Interfaces</h3>
-                    <p style="color: var(--text-light);">Structuring web architectures and deploying static digital environments.</p>
+                    <h3>Mentorship & Communication</h3>
+                    <p style="color: var(--text-light);">Translating complex academic concepts into digestible fundamentals for younger students.</p>
                     <div class="skill-tags">
-                        <span class="tag">HTML5</span>
-                        <span class="tag">CSS3</span>
-                        <span class="tag">Web Dev</span>
+                        <span class="tag">Academic Tutoring</span>
+                        <span class="tag">Class 7 - 12 Curricula</span>
+                        <span class="tag">Technical Presentations</span>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <section style="text-align: center; padding-bottom: 150px;">
+    <section id="contact" style="text-align: center; padding-bottom: 150px;">
         <h2 class="hidden">Initiate Synthesis</h2>
-        <p class="hidden" style="color: var(--text-light); margin-bottom: 2rem; font-size: 1.2rem;">Ready to collaborate on structural designs or material testing projects.</p>
-        <a href="#" class="cta-btn hidden" style="transition-delay: 150ms;">Establish Connection</a>
+        <p class="hidden" style="color: var(--text-light); margin-bottom: 2rem; font-size: 1.2rem;">Ready to collaborate on structural designs, material testing projects, or academic discussions.</p>
+        
+        <div class="links-grid hidden" style="transition-delay: 150ms;">
+            <a href="mailto:shamiulislamshiam22@gmail.com" class="link-btn">Email Me</a>
+            <a href="tel:01521750827" class="link-btn">Phone / WhatsApp</a>
+            <a href="https://github.com/shamiul2220" target="_blank" class="link-btn">GitHub</a>
+            <a href="https://www.linkedin.com/in/shamiul-islam-shiam-330ab3412/" target="_blank" class="link-btn">LinkedIn</a>
+            <a href="https://www.facebook.com/shamiul.islam.shiam.2025" target="_blank" class="link-btn">Facebook</a>
+            <a href="https://www.instagram.com/2220shamiul" target="_blank" class="link-btn">Instagram</a>
+        </div>
     </section>
 
     <script>
@@ -399,18 +430,17 @@
         const themeToggle = document.getElementById('theme-toggle');
         const htmlElement = document.documentElement;
         
-        // Expose color config for the canvas to read
         let particleRGB = '56, 189, 248'; 
 
         themeToggle.addEventListener('click', () => {
             if (htmlElement.getAttribute('data-theme') === 'dark') {
                 htmlElement.setAttribute('data-theme', 'light');
                 themeToggle.innerHTML = '🌙 Dark Mode';
-                particleRGB = '2, 132, 199'; // Blue for light mode
+                particleRGB = '2, 132, 199'; 
             } else {
                 htmlElement.setAttribute('data-theme', 'dark');
                 themeToggle.innerHTML = '☀️ Light Mode';
-                particleRGB = '56, 189, 248'; // Bright cyan for dark mode
+                particleRGB = '56, 189, 248'; 
             }
         });
 
@@ -422,7 +452,6 @@
                 const y = e.clientY - rect.top;  
                 const centerX = rect.width / 2;
                 const centerY = rect.height / 2;
-                // Calculate rotation based on distance from center
                 const rotateX = ((y - centerY) / centerY) * -12; 
                 const rotateY = ((x - centerX) / centerX) * 12;
 
@@ -475,7 +504,6 @@
                 if (this.x > width || this.x < 0) this.vx = -this.vx;
                 if (this.y > height || this.y < 0) this.vy = -this.vy;
 
-                // Mouse interaction - push atoms away slightly
                 if(mouse.x != null) {
                     let dx = mouse.x - this.x;
                     let dy = mouse.y - this.y;
@@ -495,7 +523,6 @@
             width = canvas.width = window.innerWidth;
             height = canvas.height = window.innerHeight;
             particles = [];
-            // Amount of atoms based on screen size
             let numAtoms = (width * height) / 12000; 
             for (let i = 0; i < numAtoms; i++) {
                 let size = (Math.random() * 2) + 1;
@@ -513,7 +540,6 @@
 
             for (let i = 0; i < particles.length; i++) {
                 particles[i].update();
-                // Draw Chemical Bonds (lines) between close atoms
                 for (let j = i; j < particles.length; j++) {
                     let dx = particles[i].x - particles[j].x;
                     let dy = particles[i].y - particles[j].y;
