@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Samuel Islam Siam - Portfolio</title>
+    <style>
+        /* CSS Variables for Theming */
+        :root {
+            --primary-color: #2563eb;
+            --secondary-color: #1e40af;
+            --bg-color: #f8fafc;
+            --text-main: #0f172a;
+            --text-light: #64748b;
+            --card-bg: #ffffff;
+            --nav-bg: rgba(255, 255, 255, 0.85);
+            --border-color: #e2e8f0;
+            --shadow-color: rgba(0, 0, 0, 0.05);
+        }
+
+        [data-theme="dark"] {
+            --primary-color: #3b82f6;
+            --secondary-color: #60a5fa;
+            --bg-color: #0f172a;
+            --text-main: #f8fafc;
+            --text-light: #94a3b8;
+            --card-bg: #1e293b;
+            --nav-bg: rgba(15, 23, 42, 0.85);
+            --border-color: #334155;
+            --shadow-color: rgba(0, 0, 0, 0.3);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            transition: background-color 0.4s ease, color 0.4s ease, border-color 0.4s ease;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Navigation & Theme Toggle */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: var(--nav-bg);
+            backdrop-filter: blur(12px);
+            padding: 1.2rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: var(--text-main);
+            font-weight: 500;
+        }
+
+        nav a:hover {
+            color: var(--primary-color);
+        }
+
+        #theme-toggle {
+            background: none;
+            border: 2px solid var(--border-color);
+            color: var(--text-main);
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        #theme-toggle:hover {
+            border-color: var(--primary-color);
+            color: var(--primary-color);
+        }
+
+        /* Hero Section */
+        header {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 0 20px;
+            position: relative;
+        }
+
+        h1 {
+            font-size: 4.5rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--primary-color), #8b5cf6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .subtitle {
+            font-size: 1.5rem;
+            color: var(--text-light);
+            margin-bottom: 2rem;
+            max-width: 600px;
+        }
+
+        .cta-btn {
+            padding: 14px 35px;
+            background-color: var(--primary-color);
+            color: white;
+            text-decoration: none;
+            border-radius: 30px;
+            font-weight: bold;
+            display: inline-block;
+            box-shadow: 0 4px 15px rgba(37, 99, 235, 0.3);
+        }
+
+        .cta-btn:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 6px 20px rgba(37, 99, 235, 0.5);
+            color: white;
+        }
+
+        /* Sections */
+        section {
+            padding: 100px 5%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        h2 {
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            text-align: center;
+            position: relative;
+        }
+
+        h2::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 4px;
+            background-color: var(--primary-color);
+            border-radius: 2px;
+        }
+
+        /* 3D Tilt Elements */
+        .tilt-element {
+            transform-style: preserve-3d;
+            transition: transform 0.1s ease;
+            will-change: transform;
+        }
+
+        /* About & Education Grid */
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .info-block {
+            margin-bottom: 2rem;
+        }
+
+        .info-block h3 {
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+            font-size: 1.3rem;
+        }
+
+        .info-block p {
+            color: var(--text-light);
+            font-size: 1.1rem;
+        }
+
+        .image-placeholder {
+            width: 100%;
+            height: 450px;
+            background: linear-gradient(135deg, var(--card-bg), var(--border-color));
+            border-radius: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: var(--text-light);
+            font-weight: bold;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 15px 35px var(--shadow-color);
+        }
+
+        .image-content {
+            transform: translateZ(50px); /* Pushes text forward in 3D space */
+        }
+
+        /* Skills Grid */
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .skill-card {
+            background: var(--card-bg);
+            padding: 2.5rem 2rem;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px var(--shadow-color);
+            text-align: center;
+            border: 1px solid var(--border-color);
+            position: relative;
+        }
+
+        .skill-content {
+            transform: translateZ(30px); /* 3D pop effect for inner content */
+        }
+
+        .skill-card h3 {
+            margin-bottom: 1rem;
+            color: var(--text-main);
+            font-size: 1.4rem;
+        }
+
+        .skill-tags {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 0.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .tag {
+            background: var(--bg-color);
+            color: var(--primary-color);
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            border: 1px solid var(--border-color);
+        }
+
+        /* Scroll Animations */
+        .hidden {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 0.8s ease, transform 0.8s cubic-bezier(0.5, 0, 0, 1);
+        }
+
+        .show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .about-grid { grid-template-columns: 1fr; }
+            h1 { font-size: 3rem; }
+            .nav-links { display: none; /* Hide links on mobile for simplicity, keep toggle */ }
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div style="font-weight: 800; font-size: 1.4rem; color: var(--primary-color); letter-spacing: 2px;">SIS</div>
+        <div class="nav-links">
+            <a href="#about">About</a>
+            <a href="#education">Education</a>
+            <a href="#skills">Skills</a>
+            <button id="theme-toggle">🌙 Dark Mode</button>
+        </div>
+    </nav>
+
+    <header>
+        <h1 class="hidden">Samuel Islam Siam</h1>
+        <p class="subtitle hidden" style="transition-delay: 150ms;">2nd Semester Materials Science Engineering Student located in Ustia.</p>
+        <div class="hidden" style="transition-delay: 300ms;">
+            <a href="#about" class="cta-btn">Discover My Work</a>
+        </div>
+    </header>
+
+    <section id="about">
+        <h2 class="hidden">Profile Overview</h2>
+        <div class="about-grid">
+            <div class="about-text hidden">
+                <div class="info-block">
+                    <h3>About Me</h3>
+                    <p>I am a passionate engineering student focused on the properties of materials and structural design. I love bridging the gap between theoretical science and practical application using modern design tools.</p>
+                </div>
+                <div class="info-block" id="education">
+                    <h3>Educational Background</h3>
+                    <p><strong>College:</strong> Ustia Govt College Ustia</p>
+                    <p><strong>School:</strong> Ustia Zilla School Ustia</p>
+                </div>
+                <div class="info-block">
+                    <h3>Location</h3>
+                    <p>Ustia</p>
+                </div>
+            </div>
+            
+            <div class="image-placeholder tilt-element hidden" style="transition-delay: 200ms;">
+                <div class="image-content">
+                    [Insert Profile Picture Here]
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="skills">
+        <h2 class="hidden">Technical Arsenal</h2>
+        <div class="skills-grid">
+            <div class="skill-card tilt-element hidden">
+                <div class="skill-content">
+                    <h3>Engineering & Design</h3>
+                    <p style="color: var(--text-light);">Creating precise 2D/3D models and structural plans for material analysis.</p>
+                    <div class="skill-tags">
+                        <span class="tag">AutoCAD</span>
+                        <span class="tag">SolidWorks</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="skill-card tilt-element hidden" style="transition-delay: 150ms;">
+                <div class="skill-content">
+                    <h3>Office & Analytics</h3>
+                    <p style="color: var(--text-light);">Organizing data, formatting documents, and creating technical presentations.</p>
+                    <div class="skill-tags">
+                        <span class="tag">Microsoft Excel</span>
+                        <span class="tag">Microsoft Word</span>
+                        <span class="tag">PowerPoint</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="skill-card tilt-element hidden" style="transition-delay: 300ms;">
+                <div class="skill-content">
+                    <h3>Web Technologies</h3>
+                    <p style="color: var(--text-light);">Building and styling digital interfaces and static web pages.</p>
+                    <div class="skill-tags">
+                        <span class="tag">HTML5</span>
+                        <span class="tag">CSS3</span>
+                        <span class="tag">Basic Web Dev</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" style="text-align: center; padding-bottom: 150px;">
+        <h2 class="hidden">Let's Connect</h2>
+        <p class="hidden" style="color: var(--text-light); margin-bottom: 2rem; font-size: 1.2rem;">Currently seeking collaborative engineering projects and learning opportunities.</p>
+        <a href="#" class="cta-btn hidden" style="transition-delay: 150ms;">Send an Email</a>
+    </section>
+
+    <script>
+        // --- 1. Dark/Light Mode Toggle ---
+        const themeToggle = document.getElementById('theme-toggle');
+        const htmlElement = document.documentElement;
+
+        themeToggle.addEventListener('click', () => {
+            const currentTheme = htmlElement.getAttribute('data-theme');
+            if (currentTheme === 'light') {
+                htmlElement.setAttribute('data-theme', 'dark');
+                themeToggle.innerHTML = '☀️ Light Mode';
+            } else {
+                htmlElement.setAttribute('data-theme', 'light');
+                themeToggle.innerHTML = '🌙 Dark Mode';
+            }
+        });
+
+        // --- 2. Scroll Fade-In Animation ---
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('show');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.hidden').forEach((el) => observer.observe(el));
+
+        // --- 3. 3D Tilt Mouse Movement Effect ---
+        const tiltElements = document.querySelectorAll('.tilt-element');
+
+        tiltElements.forEach(element => {
+            element.addEventListener('mousemove', (e) => {
+                const rect = element.getBoundingClientRect();
+                const x = e.clientX - rect.left; // Mouse X relative to element
+                const y = e.clientY - rect.top;  // Mouse Y relative to element
+                
+                // Calculate rotation based on mouse position (max 15 degrees)
+                const centerX = rect.width / 2;
+                const centerY = rect.height / 2;
+                const rotateX = ((y - centerY) / centerY) * -15; 
+                const rotateY = ((x - centerX) / centerX) * 15;
+
+                // Apply 3D transform
+                element.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`;
+            });
+
+            // Reset transform when mouse leaves
+            element.addEventListener('mouseleave', () => {
+                element.style.transform = `perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)`;
+                element.style.transition = `transform 0.5s ease`; // Smooth snap back
+            });
+
+            // Remove transition during movement to prevent lag
+            element.addEventListener('mouseenter', () => {
+                element.style.transition = `transform 0.1s ease`; 
+            });
+        });
+    </script>
+</body>
+</html>
