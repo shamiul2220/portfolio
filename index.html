@@ -149,7 +149,7 @@
             box-shadow: 0 0 30px var(--primary-color);
         }
 
-        /* 3D Pure CSS Atom Model */
+        /* 3D Pure CSS Atom Model combined with Profile Picture Container */
         .hero-visual {
             flex: 1;
             display: flex;
@@ -158,24 +158,41 @@
             perspective: 1000px;
         }
 
-        .atom {
+        .profile-atom-container {
             position: relative;
+            width: 320px;
+            height: 320px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .profile-frame {
+            position: absolute;
+            width: 190px;
+            height: 190px;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 3px solid var(--primary-color);
+            box-shadow: 0 0 25px var(--atom-glow);
+            z-index: 10;
+            background: var(--bg-color);
+        }
+
+        .profile-frame img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .atom {
+            position: absolute;
             width: 300px;
             height: 300px;
             transform-style: preserve-3d;
             animation: rotate-atom 20s linear infinite;
-        }
-
-        .nucleus {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 40px;
-            height: 40px;
-            background: var(--primary-color);
-            border-radius: 50%;
-            box-shadow: 0 0 30px var(--primary-color), 0 0 60px var(--secondary-color);
+            z-index: 1;
+            pointer-events: none;
         }
 
         .orbit {
@@ -234,7 +251,7 @@
         }
 
         .about-grid { grid-template-columns: 1fr 1fr; align-items: stretch; }
-        .skills-grid { grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); }
+        .skills-grid { grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); }
 
         .glass-card {
             background: var(--glass-bg);
@@ -330,11 +347,15 @@
             </div>
         </div>
         <div class="hero-visual hidden" style="transition-delay: 450ms;">
-            <div class="atom">
-                <div class="nucleus"></div>
-                <div class="orbit orbit-1"></div>
-                <div class="orbit orbit-2"></div>
-                <div class="orbit orbit-3"></div>
+            <div class="profile-atom-container">
+                <div class="profile-frame">
+                    <img src="profile.jpg" alt="MD Shamiul Islam Profile Picture">
+                </div>
+                <div class="atom">
+                    <div class="orbit orbit-1"></div>
+                    <div class="orbit orbit-2"></div>
+                    <div class="orbit orbit-3"></div>
+                </div>
             </div>
         </div>
     </header>
@@ -346,7 +367,7 @@
                 <div class="card-content">
                     <div class="info-block">
                         <h3>About Me</h3>
-                        <p>I am an engineering student at RUET focused on the microstructures of matter and macro-structural design. Having completed 10 theory and sessional courses spanning Maths, Humanities, Physics, and CSE fundamentals, I enjoy bridging the gap between theoretical mechanics—like kinematics and free-body analysis—and practical application. Alongside my studies, I actively tutor students from class 7 to 12, sharing my passion for science and foundational engineering.</p>
+                        <p>I am an engineering student at RUET focused on the microstructures of matter and macro-structural design. Having completed 10 theory and sessional courses spanning Maths, Humanities, Chemistry fundamentals, CSE fundamentals, and Physics, I enjoy bridging the gap between theoretical mechanics—like kinematics and free-body analysis—and practical application. Alongside my studies, I actively tutor students from class 7 to 12, sharing my passion for science and foundational engineering.</p>
                     </div>
                 </div>
             </div>
@@ -376,8 +397,8 @@
                     <h3>Engineering & Design</h3>
                     <p style="color: var(--text-light);">Creating precise 2D/3D models, structural plans, and applying machinery-level competencies.</p>
                     <div class="skill-tags">
-                        <span class="tag">AutoCAD</span>
-                        <span class="tag">SolidWorks</span>
+                        <span class="tag">AutoCAD (Beginner)</span>
+                        <span class="tag">SolidWorks (Beginner)</span>
                         <span class="tag">Machinery Tools</span>
                         <span class="tag">Mechanics & FBDs</span>
                     </div>
@@ -385,6 +406,18 @@
             </div>
             
             <div class="glass-card tilt-element hidden" style="transition-delay: 150ms;">
+                <div class="card-content">
+                    <h3>3D Engines & Graphics</h3>
+                    <p style="color: var(--text-light);">Developing fundamental pipelines for custom modeling, interactive systems, and real-time environment configurations.</p>
+                    <div class="skill-tags">
+                        <span class="tag">Blender (Beginner)</span>
+                        <span class="tag">Unity (Beginner)</span>
+                        <span class="tag">Unreal Engine 5 (Beginner)</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="glass-card tilt-element hidden" style="transition-delay: 250ms;">
                 <div class="card-content">
                     <h3>Data, Software & Logic</h3>
                     <p style="color: var(--text-light);">Organizing testing data, formatting technical documentation, and writing foundational logic.</p>
@@ -397,7 +430,7 @@
                 </div>
             </div>
 
-            <div class="glass-card tilt-element hidden" style="transition-delay: 300ms;">
+            <div class="glass-card tilt-element hidden" style="transition-delay: 350ms;">
                 <div class="card-content">
                     <h3>Mentorship & Communication</h3>
                     <p style="color: var(--text-light);">Translating complex academic concepts into digestible fundamentals for younger students.</p>
@@ -488,7 +521,7 @@
         window.addEventListener('mouseout', () => { mouse.x = null; mouse.y = null; });
         window.addEventListener('resize', initLattice);
 
-        class Atom {
+        class AtomNode {
             constructor(x, y, vx, vy, size) {
                 this.x = x; this.y = y;
                 this.vx = vx; this.vy = vy;
@@ -530,7 +563,7 @@
                 let y = Math.random() * height;
                 let vx = (Math.random() - 0.5) * 1.5;
                 let vy = (Math.random() - 0.5) * 1.5;
-                particles.push(new Atom(x, y, vx, vy, size));
+                particles.push(new AtomNode(x, y, vx, vy, size));
             }
         }
 
