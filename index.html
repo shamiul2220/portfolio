@@ -1,33 +1,33 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="light">
+<html lang="en" data-theme="dark"> <!-- Defaulted to dark for the cool glowing effect -->
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Samuel Islam Siam - Portfolio</title>
+    <title>Samuel Islam Siam - Materials Engineer</title>
     <style>
-        /* CSS Variables for Theming */
+        /* CSS Variables */
         :root {
-            --primary-color: #2563eb;
-            --secondary-color: #1e40af;
-            --bg-color: #f8fafc;
-            --text-main: #0f172a;
-            --text-light: #64748b;
-            --card-bg: #ffffff;
-            --nav-bg: rgba(255, 255, 255, 0.85);
-            --border-color: #e2e8f0;
-            --shadow-color: rgba(0, 0, 0, 0.05);
-        }
-
-        [data-theme="dark"] {
-            --primary-color: #3b82f6;
-            --secondary-color: #60a5fa;
+            --primary-color: #38bdf8;
+            --secondary-color: #818cf8;
             --bg-color: #0f172a;
             --text-main: #f8fafc;
             --text-light: #94a3b8;
-            --card-bg: #1e293b;
-            --nav-bg: rgba(15, 23, 42, 0.85);
-            --border-color: #334155;
-            --shadow-color: rgba(0, 0, 0, 0.3);
+            --glass-bg: rgba(30, 41, 59, 0.6);
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --atom-glow: rgba(56, 189, 248, 0.5);
+            --particle-color: 56, 189, 248; /* RGB for canvas */
+        }
+
+        [data-theme="light"] {
+            --primary-color: #0284c7;
+            --secondary-color: #4f46e5;
+            --bg-color: #f0f4f8;
+            --text-main: #0f172a;
+            --text-light: #475569;
+            --glass-bg: rgba(255, 255, 255, 0.7);
+            --glass-border: rgba(0, 0, 0, 0.1);
+            --atom-glow: rgba(2, 132, 199, 0.3);
+            --particle-color: 2, 132, 199;
         }
 
         * {
@@ -35,7 +35,7 @@
             padding: 0;
             box-sizing: border-box;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            transition: background-color 0.4s ease, color 0.4s ease, border-color 0.4s ease;
+            transition: color 0.4s ease, border-color 0.4s ease;
         }
 
         body {
@@ -43,25 +43,36 @@
             color: var(--text-main);
             line-height: 1.6;
             overflow-x: hidden;
+            transition: background-color 0.5s ease;
         }
 
-        html {
-            scroll-behavior: smooth;
+        html { scroll-behavior: smooth; }
+
+        /* Canvas Background */
+        #lattice-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: -1;
+            pointer-events: none;
         }
 
-        /* Navigation & Theme Toggle */
+        /* Glassmorphism Navigation */
         nav {
             position: fixed;
             top: 0;
             width: 100%;
-            background: var(--nav-bg);
-            backdrop-filter: blur(12px);
+            background: var(--glass-bg);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
             padding: 1.2rem 5%;
             display: flex;
             justify-content: space-between;
             align-items: center;
             z-index: 1000;
-            border-bottom: 1px solid var(--border-color);
+            border-bottom: 1px solid var(--glass-border);
         }
 
         .nav-links {
@@ -76,265 +87,274 @@
             font-weight: 500;
         }
 
-        nav a:hover {
-            color: var(--primary-color);
-        }
+        nav a:hover { color: var(--primary-color); }
 
         #theme-toggle {
-            background: none;
-            border: 2px solid var(--border-color);
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
             color: var(--text-main);
             padding: 8px 16px;
             border-radius: 20px;
             cursor: pointer;
             font-weight: bold;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        #theme-toggle:hover {
-            border-color: var(--primary-color);
-            color: var(--primary-color);
+            backdrop-filter: blur(5px);
         }
 
         /* Hero Section */
         header {
             min-height: 100vh;
             display: flex;
-            flex-direction: column;
             justify-content: center;
             align-items: center;
-            text-align: center;
-            padding: 0 20px;
+            padding: 0 5%;
             position: relative;
+            gap: 4rem;
+        }
+
+        .hero-text {
+            flex: 1;
+            max-width: 600px;
+            z-index: 2;
         }
 
         h1 {
             font-size: 4.5rem;
             margin-bottom: 1rem;
-            background: linear-gradient(135deg, var(--primary-color), #8b5cf6);
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+            line-height: 1.1;
         }
 
         .subtitle {
             font-size: 1.5rem;
             color: var(--text-light);
             margin-bottom: 2rem;
-            max-width: 600px;
         }
 
         .cta-btn {
             padding: 14px 35px;
-            background-color: var(--primary-color);
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
             color: white;
             text-decoration: none;
             border-radius: 30px;
             font-weight: bold;
             display: inline-block;
-            box-shadow: 0 4px 15px rgba(37, 99, 235, 0.3);
+            box-shadow: 0 0 20px var(--atom-glow);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
 
         .cta-btn:hover {
             transform: translateY(-3px) scale(1.05);
-            box-shadow: 0 6px 20px rgba(37, 99, 235, 0.5);
-            color: white;
+            box-shadow: 0 0 30px var(--primary-color);
         }
 
-        /* Sections */
+        /* 3D Pure CSS Atom Model */
+        .hero-visual {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            perspective: 1000px;
+        }
+
+        .atom {
+            position: relative;
+            width: 300px;
+            height: 300px;
+            transform-style: preserve-3d;
+            animation: rotate-atom 20s linear infinite;
+        }
+
+        .nucleus {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 40px;
+            height: 40px;
+            background: var(--primary-color);
+            border-radius: 50%;
+            box-shadow: 0 0 30px var(--primary-color), 0 0 60px var(--secondary-color);
+        }
+
+        .orbit {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: 2px solid var(--glass-border);
+            border-radius: 50%;
+            transform-style: preserve-3d;
+        }
+
+        .orbit::before { /* The electron */
+            content: '';
+            position: absolute;
+            top: -5px;
+            left: 50%;
+            width: 15px;
+            height: 15px;
+            background: var(--text-main);
+            border-radius: 50%;
+            box-shadow: 0 0 15px white;
+        }
+
+        /* Orienting the orbits in 3D space */
+        .orbit-1 { transform: rotateY(60deg) rotateX(45deg); animation: spin-orbit 4s linear infinite; }
+        .orbit-2 { transform: rotateY(-60deg) rotateX(45deg); animation: spin-orbit 5s linear infinite reverse; }
+        .orbit-3 { transform: rotateY(0deg) rotateX(75deg); animation: spin-orbit 6s linear infinite; }
+
+        @keyframes spin-orbit {
+            100% { transform: rotateZ(360deg); } /* Keep orientation, just spin the electron */
+        }
+        @keyframes rotate-atom {
+            0% { transform: rotateX(0) rotateY(0); }
+            100% { transform: rotateX(360deg) rotateY(360deg); }
+        }
+
+        /* Sections & Glass Cards */
         section {
             padding: 100px 5%;
             max-width: 1200px;
             margin: 0 auto;
+            position: relative;
+            z-index: 2;
         }
 
         h2 {
             font-size: 2.5rem;
             margin-bottom: 3rem;
             text-align: center;
-            position: relative;
         }
 
-        h2::after {
-            content: '';
-            position: absolute;
-            bottom: -10px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 60px;
-            height: 4px;
-            background-color: var(--primary-color);
-            border-radius: 2px;
-        }
-
-        /* 3D Tilt Elements */
-        .tilt-element {
-            transform-style: preserve-3d;
-            transition: transform 0.1s ease;
-            will-change: transform;
-        }
-
-        /* About & Education Grid */
-        .about-grid {
+        .about-grid, .skills-grid {
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 4rem;
-            align-items: center;
-        }
-
-        .info-block {
-            margin-bottom: 2rem;
-        }
-
-        .info-block h3 {
-            color: var(--primary-color);
-            margin-bottom: 0.5rem;
-            font-size: 1.3rem;
-        }
-
-        .info-block p {
-            color: var(--text-light);
-            font-size: 1.1rem;
-        }
-
-        .image-placeholder {
-            width: 100%;
-            height: 450px;
-            background: linear-gradient(135deg, var(--card-bg), var(--border-color));
-            border-radius: 20px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            color: var(--text-light);
-            font-weight: bold;
-            border: 1px solid var(--border-color);
-            box-shadow: 0 15px 35px var(--shadow-color);
-        }
-
-        .image-content {
-            transform: translateZ(50px); /* Pushes text forward in 3D space */
-        }
-
-        /* Skills Grid */
-        .skills-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 2rem;
         }
 
-        .skill-card {
-            background: var(--card-bg);
-            padding: 2.5rem 2rem;
+        .about-grid { grid-template-columns: 1fr 1fr; align-items: stretch; }
+        .skills-grid { grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); }
+
+        .glass-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid var(--glass-border);
+            padding: 2.5rem;
             border-radius: 20px;
-            box-shadow: 0 10px 30px var(--shadow-color);
-            text-align: center;
-            border: 1px solid var(--border-color);
-            position: relative;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transform-style: preserve-3d;
         }
 
-        .skill-content {
-            transform: translateZ(30px); /* 3D pop effect for inner content */
-        }
+        .info-block { margin-bottom: 2rem; }
+        .info-block h3 { color: var(--primary-color); margin-bottom: 0.5rem; font-size: 1.3rem; }
+        .info-block p { color: var(--text-light); font-size: 1.1rem; }
 
-        .skill-card h3 {
-            margin-bottom: 1rem;
-            color: var(--text-main);
-            font-size: 1.4rem;
-        }
-
-        .skill-tags {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 0.5rem;
-            margin-top: 1.5rem;
-        }
-
+        .skill-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 1.5rem; }
         .tag {
-            background: var(--bg-color);
+            background: rgba(129, 140, 248, 0.1);
             color: var(--primary-color);
             padding: 8px 15px;
             border-radius: 20px;
             font-size: 0.9rem;
             font-weight: 600;
-            border: 1px solid var(--border-color);
+            border: 1px solid var(--glass-border);
         }
 
-        /* Scroll Animations */
+        /* 3D Tilt Logic */
+        .tilt-element { transition: transform 0.1s ease; will-change: transform; }
+        .card-content { transform: translateZ(40px); } /* Pushes text off the card in 3D */
+
         .hidden {
             opacity: 0;
             transform: translateY(40px);
             transition: opacity 0.8s ease, transform 0.8s cubic-bezier(0.5, 0, 0, 1);
         }
+        .show { opacity: 1; transform: translateY(0); }
 
-        .show {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        /* Responsive */
-        @media (max-width: 768px) {
+        @media (max-width: 900px) {
+            header { flex-direction: column; text-align: center; justify-content: center; padding-top: 100px; }
+            .hero-visual { transform: scale(0.7); }
             .about-grid { grid-template-columns: 1fr; }
-            h1 { font-size: 3rem; }
-            .nav-links { display: none; /* Hide links on mobile for simplicity, keep toggle */ }
+            .nav-links { display: none; }
         }
     </style>
 </head>
 <body>
 
+    <!-- Dynamic Material Network Background -->
+    <canvas id="lattice-canvas"></canvas>
+
     <nav>
-        <div style="font-weight: 800; font-size: 1.4rem; color: var(--primary-color); letter-spacing: 2px;">SIS</div>
+        <div style="font-weight: 800; font-size: 1.4rem; color: var(--primary-color); letter-spacing: 2px;">SIS.</div>
         <div class="nav-links">
-            <a href="#about">About</a>
-            <a href="#education">Education</a>
-            <a href="#skills">Skills</a>
-            <button id="theme-toggle">🌙 Dark Mode</button>
+            <a href="#about">Properties</a>
+            <a href="#skills">Tooling</a>
+            <button id="theme-toggle">☀️ Light Mode</button>
         </div>
     </nav>
 
     <header>
-        <h1 class="hidden">Samuel Islam Siam</h1>
-        <p class="subtitle hidden" style="transition-delay: 150ms;">2nd Semester Materials Science Engineering Student located in Ustia.</p>
-        <div class="hidden" style="transition-delay: 300ms;">
-            <a href="#about" class="cta-btn">Discover My Work</a>
+        <div class="hero-text">
+            <h1 class="hidden">Samuel Islam Siam</h1>
+            <p class="subtitle hidden" style="transition-delay: 150ms;">2nd Semester Materials Science Engineering Student investigating structural design and material properties in Ustia.</p>
+            <div class="hidden" style="transition-delay: 300ms;">
+                <a href="#about" class="cta-btn">Analyze Profile</a>
+            </div>
+        </div>
+        <div class="hero-visual hidden" style="transition-delay: 450ms;">
+            <!-- CSS 3D Atom -->
+            <div class="atom">
+                <div class="nucleus"></div>
+                <div class="orbit orbit-1"></div>
+                <div class="orbit orbit-2"></div>
+                <div class="orbit orbit-3"></div>
+            </div>
         </div>
     </header>
 
     <section id="about">
-        <h2 class="hidden">Profile Overview</h2>
+        <h2 class="hidden">Material Composition (About)</h2>
         <div class="about-grid">
-            <div class="about-text hidden">
-                <div class="info-block">
-                    <h3>About Me</h3>
-                    <p>I am a passionate engineering student focused on the properties of materials and structural design. I love bridging the gap between theoretical science and practical application using modern design tools.</p>
-                </div>
-                <div class="info-block" id="education">
-                    <h3>Educational Background</h3>
-                    <p><strong>College:</strong> Ustia Govt College Ustia</p>
-                    <p><strong>School:</strong> Ustia Zilla School Ustia</p>
-                </div>
-                <div class="info-block">
-                    <h3>Location</h3>
-                    <p>Ustia</p>
+            <div class="glass-card tilt-element hidden">
+                <div class="card-content">
+                    <div class="info-block">
+                        <h3>About Me</h3>
+                        <p>I am an engineering student focused on the microstructures of matter and macro-structural design. I love bridging the gap between theoretical chemistry, physics, and practical application.</p>
+                    </div>
+                    <div class="info-block">
+                        <h3>Location Base</h3>
+                        <p>Ustia</p>
+                    </div>
                 </div>
             </div>
             
-            <div class="image-placeholder tilt-element hidden" style="transition-delay: 200ms;">
-                <div class="image-content">
-                    [Insert Profile Picture Here]
+            <div class="glass-card tilt-element hidden" style="transition-delay: 200ms;">
+                <div class="card-content">
+                    <div class="info-block">
+                        <h3>Educational Lattice</h3>
+                        <p><strong>College Phase:</strong> Ustia Govt College Ustia</p>
+                        <p style="margin-top: 10px;"><strong>School Phase:</strong> Ustia Zilla School Ustia</p>
+                    </div>
+                    <div class="info-block">
+                        <h3>Current Status</h3>
+                        <p>2nd Semester Materials Science Engineering Student</p>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
 
     <section id="skills">
-        <h2 class="hidden">Technical Arsenal</h2>
+        <h2 class="hidden">Technical Tooling</h2>
         <div class="skills-grid">
-            <div class="skill-card tilt-element hidden">
-                <div class="skill-content">
+            
+            <div class="glass-card tilt-element hidden">
+                <div class="card-content">
                     <h3>Engineering & Design</h3>
-                    <p style="color: var(--text-light);">Creating precise 2D/3D models and structural plans for material analysis.</p>
+                    <p style="color: var(--text-light);">Creating precise 2D/3D models and structural plans for mechanical analysis.</p>
                     <div class="skill-tags">
                         <span class="tag">AutoCAD</span>
                         <span class="tag">SolidWorks</span>
@@ -342,10 +362,10 @@
                 </div>
             </div>
             
-            <div class="skill-card tilt-element hidden" style="transition-delay: 150ms;">
-                <div class="skill-content">
-                    <h3>Office & Analytics</h3>
-                    <p style="color: var(--text-light);">Organizing data, formatting documents, and creating technical presentations.</p>
+            <div class="glass-card tilt-element hidden" style="transition-delay: 150ms;">
+                <div class="card-content">
+                    <h3>Data & Analytics</h3>
+                    <p style="color: var(--text-light);">Organizing testing data, formatting technical documents, and presentations.</p>
                     <div class="skill-tags">
                         <span class="tag">Microsoft Excel</span>
                         <span class="tag">Microsoft Word</span>
@@ -354,83 +374,165 @@
                 </div>
             </div>
 
-            <div class="skill-card tilt-element hidden" style="transition-delay: 300ms;">
-                <div class="skill-content">
-                    <h3>Web Technologies</h3>
-                    <p style="color: var(--text-light);">Building and styling digital interfaces and static web pages.</p>
+            <div class="glass-card tilt-element hidden" style="transition-delay: 300ms;">
+                <div class="card-content">
+                    <h3>Digital Interfaces</h3>
+                    <p style="color: var(--text-light);">Structuring web architectures and deploying static digital environments.</p>
                     <div class="skill-tags">
                         <span class="tag">HTML5</span>
                         <span class="tag">CSS3</span>
-                        <span class="tag">Basic Web Dev</span>
+                        <span class="tag">Web Dev</span>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <section id="contact" style="text-align: center; padding-bottom: 150px;">
-        <h2 class="hidden">Let's Connect</h2>
-        <p class="hidden" style="color: var(--text-light); margin-bottom: 2rem; font-size: 1.2rem;">Currently seeking collaborative engineering projects and learning opportunities.</p>
-        <a href="#" class="cta-btn hidden" style="transition-delay: 150ms;">Send an Email</a>
+    <section style="text-align: center; padding-bottom: 150px;">
+        <h2 class="hidden">Initiate Synthesis</h2>
+        <p class="hidden" style="color: var(--text-light); margin-bottom: 2rem; font-size: 1.2rem;">Ready to collaborate on structural designs or material testing projects.</p>
+        <a href="#" class="cta-btn hidden" style="transition-delay: 150ms;">Establish Connection</a>
     </section>
 
     <script>
         // --- 1. Dark/Light Mode Toggle ---
         const themeToggle = document.getElementById('theme-toggle');
         const htmlElement = document.documentElement;
+        
+        // Expose color config for the canvas to read
+        let particleRGB = '56, 189, 248'; 
 
         themeToggle.addEventListener('click', () => {
-            const currentTheme = htmlElement.getAttribute('data-theme');
-            if (currentTheme === 'light') {
-                htmlElement.setAttribute('data-theme', 'dark');
-                themeToggle.innerHTML = '☀️ Light Mode';
-            } else {
+            if (htmlElement.getAttribute('data-theme') === 'dark') {
                 htmlElement.setAttribute('data-theme', 'light');
                 themeToggle.innerHTML = '🌙 Dark Mode';
+                particleRGB = '2, 132, 199'; // Blue for light mode
+            } else {
+                htmlElement.setAttribute('data-theme', 'dark');
+                themeToggle.innerHTML = '☀️ Light Mode';
+                particleRGB = '56, 189, 248'; // Bright cyan for dark mode
             }
         });
 
-        // --- 2. Scroll Fade-In Animation ---
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('show');
-                }
-            });
-        }, { threshold: 0.1 });
-
-        document.querySelectorAll('.hidden').forEach((el) => observer.observe(el));
-
-        // --- 3. 3D Tilt Mouse Movement Effect ---
-        const tiltElements = document.querySelectorAll('.tilt-element');
-
-        tiltElements.forEach(element => {
+        // --- 2. 3D Tilt Hover Effects ---
+        document.querySelectorAll('.tilt-element').forEach(element => {
             element.addEventListener('mousemove', (e) => {
                 const rect = element.getBoundingClientRect();
-                const x = e.clientX - rect.left; // Mouse X relative to element
-                const y = e.clientY - rect.top;  // Mouse Y relative to element
-                
-                // Calculate rotation based on mouse position (max 15 degrees)
+                const x = e.clientX - rect.left; 
+                const y = e.clientY - rect.top;  
                 const centerX = rect.width / 2;
                 const centerY = rect.height / 2;
-                const rotateX = ((y - centerY) / centerY) * -15; 
-                const rotateY = ((x - centerX) / centerX) * 15;
+                // Calculate rotation based on distance from center
+                const rotateX = ((y - centerY) / centerY) * -12; 
+                const rotateY = ((x - centerX) / centerX) * 12;
 
-                // Apply 3D transform
                 element.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`;
             });
 
-            // Reset transform when mouse leaves
             element.addEventListener('mouseleave', () => {
                 element.style.transform = `perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)`;
-                element.style.transition = `transform 0.5s ease`; // Smooth snap back
+                element.style.transition = `transform 0.5s ease`; 
             });
 
-            // Remove transition during movement to prevent lag
             element.addEventListener('mouseenter', () => {
                 element.style.transition = `transform 0.1s ease`; 
             });
         });
+
+        // --- 3. Scroll Fade-In ---
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) entry.target.classList.add('show');
+            });
+        }, { threshold: 0.1 });
+        document.querySelectorAll('.hidden').forEach((el) => observer.observe(el));
+
+        // --- 4. Interactive Molecular Lattice Canvas ---
+        const canvas = document.getElementById('lattice-canvas');
+        const ctx = canvas.getContext('2d');
+        
+        let width, height;
+        let particles = [];
+        let mouse = { x: null, y: null, radius: 150 };
+
+        window.addEventListener('mousemove', (e) => { mouse.x = e.x; mouse.y = e.y; });
+        window.addEventListener('mouseout', () => { mouse.x = null; mouse.y = null; });
+        window.addEventListener('resize', initLattice);
+
+        class Atom {
+            constructor(x, y, vx, vy, size) {
+                this.x = x; this.y = y;
+                this.vx = vx; this.vy = vy;
+                this.size = size;
+            }
+            draw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fillStyle = `rgba(${particleRGB}, 0.8)`;
+                ctx.fill();
+            }
+            update() {
+                if (this.x > width || this.x < 0) this.vx = -this.vx;
+                if (this.y > height || this.y < 0) this.vy = -this.vy;
+
+                // Mouse interaction - push atoms away slightly
+                if(mouse.x != null) {
+                    let dx = mouse.x - this.x;
+                    let dy = mouse.y - this.y;
+                    let distance = Math.sqrt(dx*dx + dy*dy);
+                    if (distance < mouse.radius) {
+                        this.x -= dx/30;
+                        this.y -= dy/30;
+                    }
+                }
+                this.x += this.vx;
+                this.y += this.vy;
+                this.draw();
+            }
+        }
+
+        function initLattice() {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+            particles = [];
+            // Amount of atoms based on screen size
+            let numAtoms = (width * height) / 12000; 
+            for (let i = 0; i < numAtoms; i++) {
+                let size = (Math.random() * 2) + 1;
+                let x = Math.random() * width;
+                let y = Math.random() * height;
+                let vx = (Math.random() - 0.5) * 1.5;
+                let vy = (Math.random() - 0.5) * 1.5;
+                particles.push(new Atom(x, y, vx, vy, size));
+            }
+        }
+
+        function animateLattice() {
+            requestAnimationFrame(animateLattice);
+            ctx.clearRect(0, 0, width, height);
+
+            for (let i = 0; i < particles.length; i++) {
+                particles[i].update();
+                // Draw Chemical Bonds (lines) between close atoms
+                for (let j = i; j < particles.length; j++) {
+                    let dx = particles[i].x - particles[j].x;
+                    let dy = particles[i].y - particles[j].y;
+                    let distance = Math.sqrt(dx*dx + dy*dy);
+
+                    if (distance < 120) {
+                        ctx.beginPath();
+                        ctx.strokeStyle = `rgba(${particleRGB}, ${1 - distance/120})`;
+                        ctx.lineWidth = 1;
+                        ctx.moveTo(particles[i].x, particles[i].y);
+                        ctx.lineTo(particles[j].x, particles[j].y);
+                        ctx.stroke();
+                    }
+                }
+            }
+        }
+
+        initLattice();
+        animateLattice();
     </script>
 </body>
 </html>
